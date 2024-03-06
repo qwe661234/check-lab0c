@@ -28,11 +28,11 @@ display_warnings() {
     done
   done
 
-  echo
-  echo -e "${RED}$(cat <<-EOF
-How to Write a Git Commit Message
-EOF
-)${NC}"
+#   echo
+#   echo -e "${RED}$(cat <<-EOF
+# How to Write a Git Commit Message
+# EOF
+# )${NC}"
 }
 
 #
@@ -41,7 +41,7 @@ EOF
 
 read_commit_message() {
   # reset commit_msg_lines
-  COMMIT_MSG_LINES=$1
+  COMMIT_MSG_LINES="$1"
 }
 
 #
@@ -51,7 +51,6 @@ read_commit_message() {
 validate_commit_message() {
   # reset warnings
   WARNINGS=()
-
   # capture the subject, and remove the 'squash! ' prefix if present
   COMMIT_SUBJECT=${COMMIT_MSG_LINES[0]/#squash! /}
 
@@ -210,16 +209,16 @@ else
   TTY=/dev/tty
 fi
 
-COMMIT_MSG=""
+OMMIT_MSG_LINES=()
 for ARG in "$@"; do
-  COMMIT_MSG+="$ARG"
+  COMMIT_MSG_LINES+=("$ARG")
 done  
-  read_commit_message "$COMMIT_MSG"
+  # read_commit_message "$COMMIT_MSG"
 
   validate_commit_message
 
   # if there are no WARNINGS are empty then we're good to break out of here
-  test ${#WARNINGS[@]} -eq 0 && exit 0;
+  # test ${#WARNINGS[@]} -eq 0 && exit 0;
 
   display_warnings
 
